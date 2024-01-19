@@ -1,6 +1,9 @@
 import consoleHi from './script/test';
 
 
-consoleHi();
+import './scss/index.scss';
 
 import './index.html';
+
+consoleHi();
+
