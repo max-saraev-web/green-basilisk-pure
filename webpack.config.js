@@ -13,11 +13,12 @@ module.exports = {
   devServer: {
     hot: true,
   },
-  entry: './src/index.js',
+  entry: ['@babel/polyfill', './src/index.js'],
   output: {
     filename: '[name][contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+    assetModuleFilename: 'assets/[hash][ext][query]',
   },
   module: {
     rules: [
@@ -42,12 +43,24 @@ module.exports = {
         test: /\.(woff2|woff|eot|ttf|otf)$/i,
         type: 'asset/resource',
       },
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+          },
+        },
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name][contenthash].css',
+    }),
   ],
 };
